@@ -11,6 +11,8 @@
 
         e.preventDefault();
 
+        document.getElementsByName("roman")[0].value = "";
+
         var check = true;
 
         for (var i = 0; i < input.length; i++) {
@@ -81,11 +83,17 @@
 
         var RxAcutal = RAnterior.Rx + 1;
 
-        return crearResultado(RxAcutal, transformar(numeroDecimal.slice(0, 1), RxAcutal) + RAnterior.Ry);
+        var RyActual = transformar(numeroDecimal.slice(0, 1), RxAcutal);
+
+        //Verifica que no se acepten numeros del 101 al 199
+        if (match(RyActual, "C") &&  !match(RAnterior.Ry, "") ) throw new Error("Numero no soportado");
+
+        return crearResultado(RxAcutal,   RyActual + RAnterior.Ry);
     }
 
 
     function transformar(input, Rx) {
+        // Establece los valores de salida  para el digito de la unidad
         if (Rx == 1) {
             if (match(input, 0)) return "";
 
@@ -107,7 +115,7 @@
 
             if (match(input, 9)) return "IX";
         }
-
+        // Establece los valores de salida  para el digito de la decena
         else if (Rx == 2) {
             if (match(input, 0)) return "";
 
@@ -129,16 +137,20 @@
 
             if (match(input, 9)) return "XC";
         }
+         // Establece los valores de salida  para el digito de la centena
         else if (Rx == 3) {
 
             if (match(input, 0)) return "";
 
             if (match(input, 1)) return "C";
 
+            //Verifica que no se acepten numeros mayores a 199
             throw new Error("Numero no soportado");
 
         }
         else {
+
+             //Verifica que no se acepten numeros mayores a  1000
             throw new Error("Numero no soportado");
         }
 
@@ -146,7 +158,7 @@
     }
 
 
-
+    //Funcion match que se encarga de comparar caracteres
     function match(input, caracter) {
         if (input == caracter) {
             return true;
