@@ -2,6 +2,7 @@
 (function ($) {
     "use strict";
 
+    $('#alerta').hide();
 
     /*==================================================================
     [ Validate ]*/
@@ -23,10 +24,13 @@
         }
 
 
-
-        var resultado = R(input.val() + "eof");
-
-        document.getElementsByName("roman")[0].value = resultado.Ry;
+        try{
+            var resultado = R(input.val() + "eof");
+            document.getElementsByName("roman")[0].value = resultado.Ry;
+        }catch(e){
+            $('#alerta').show();
+        }
+       
 
 
         return check;
